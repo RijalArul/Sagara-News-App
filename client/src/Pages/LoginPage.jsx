@@ -1,10 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { actionLogin, setErrorLogin } from '../Store/actions/userAction'
+import { toast } from 'react-toastify'
 
 function LoginPage () {
   const [userLogin, setUserLogin] = useState({
     email: '',
     password: ''
   })
+
+  const { error } = useSelector(state => state.usersState)
+
+  console.log(error)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Error Logining you in')
+    }
+  }, [dispatch, error])
 
   function handleChangeInput (e) {
     setUserLogin({
@@ -15,6 +29,7 @@ function LoginPage () {
 
   function handleSubmitLogin (e) {
     e.preventDefault()
+    dispatch(actionLogin(userLogin))
   }
   return (
     <div class='min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>

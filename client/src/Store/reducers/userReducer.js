@@ -1,7 +1,8 @@
-import { SET_LOGIN_SUCCESS } from '../actions/actionType'
+import { SET_ERROR_LOGIN, SET_LOGIN_SUCCESS } from '../actions/actionType'
 
 const initialState = {
-  access_token: localStorage.getItem('access_token')
+  access_token: localStorage.getItem('access_token'),
+  error: ''
 }
 
 function userReducer (state = initialState, action) {
@@ -9,6 +10,8 @@ function userReducer (state = initialState, action) {
   switch (type) {
     case SET_LOGIN_SUCCESS:
       return { ...state, access_token: payload }
+    case SET_ERROR_LOGIN:
+      return { ...state, error: payload }
     default:
       return state
   }

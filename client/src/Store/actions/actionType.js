@@ -1,3 +1,4 @@
 export const SET_NEWS = 'SET_NEWS'
 export const SET_DETAIL_NEWS = 'SET_DETAIL_NEWS'
 export const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS'
+export const SET_ERROR_LOGIN = 'SER_ERROR_LOGIN'
