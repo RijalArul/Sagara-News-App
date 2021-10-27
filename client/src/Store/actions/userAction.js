@@ -1,6 +1,6 @@
 import {
   SET_ERROR_LOGIN,
-  SET_ERROR_REGISTER,
+  SET_REGISTER_ERROR,
   SET_LOGIN_SUCCESS,
   SET_REGISTER_SUCCESS
 } from './actionType'
@@ -28,7 +28,7 @@ export function setRegisterSuccess (payload) {
 
 export function setRegisterError (payload) {
   return {
-    type: SET_ERROR_REGISTER,
+    type: SET_REGISTER_ERROR,
     payload
   }
 }
@@ -63,9 +63,21 @@ export function actionLogin (payload) {
 export function actionRegister (payload) {
   return async function (dispatch) {
     try {
-      console.log(payload)
+      const response = await fetch('http://localhost:3001/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+
+      if (response.status === 400) {
+        throw { name: 'Register_Failed' }
+      } else {
+      }
     } catch (err) {
-      console.log(err)
+      const { name } = err
+      dispatch(setRegisterError(name))
     }
   }
 }

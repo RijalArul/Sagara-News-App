@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  actionLogin,
-  actionRegister,
-  setErrorLogin
-} from '../Store/actions/userAction'
+import { actionRegister, setRegisterError } from '../Store/actions/userAction'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router'
 
@@ -50,6 +46,14 @@ function RegisterPage () {
   ])
 
   const dispatch = useDispatch()
+  const { error } = useSelector(state => state.usersState)
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Register Failed')
+      dispatch(setRegisterError(''))
+    }
+  }, [error, dispatch])
 
   function handleChangeInput (e) {
     setSelectedProvince(e.target.value)
