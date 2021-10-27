@@ -1,7 +1,6 @@
 import React from 'react'
 import * as moment from 'moment'
 import { useHistory } from 'react-router'
-import DetailPage from '../Pages/DetailPage'
 import { useDispatch } from 'react-redux'
 import { actionFetchNewsDetail } from '../Store/actions/newsAction'
 
