@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionLogin, setErrorLogin } from '../Store/actions/userAction'
 import { toast } from 'react-toastify'
+import { useHistory } from 'react-router'
 
 function LoginPage () {
   const [userLogin, setUserLogin] = useState({
@@ -9,14 +10,22 @@ function LoginPage () {
     password: ''
   })
 
-  const { error } = useSelector(state => state.usersState)
+  const { error, access_token } = useSelector(state => state.usersState)
 
-  console.log(error)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   useEffect(() => {
-    if (error) {
-      toast.error('Error Logining you in')
+    if (access_token) {
+      toast.success('Login sucess')
+      setTimeout(() => {
+        history.push('/')
+      }, 2000)
+
+      if (error) {
+        toast.error('Error Logining you in')
+        dispatch(setErrorLogin(''))
+      }
     }
   }, [dispatch, error])
 
