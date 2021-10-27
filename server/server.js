@@ -20,12 +20,17 @@ function isLoginAuthenticated ({ email, password }) {
   const { users } = userdb
 
   let filterUser
+  let result
   for (let i = 0; i < users.length; i++) {
     filterUser = users[i].user.filter(
       user => user.email === email && user.password === password
     )
+
+    if (filterUser.length > 0) {
+      result = filterUser
+    }
   }
-  return filterUser
+  return result
 }
 
 app.post('/register', (req, res) => {
