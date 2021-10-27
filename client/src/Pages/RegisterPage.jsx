@@ -5,12 +5,15 @@ import { toast } from 'react-toastify'
 import { useHistory } from 'react-router'
 
 function RegisterPage () {
+  const [selectedProvince, setSelectedProvince] = useState('')
   const [userRegister, setUserRegister] = useState({
     email: '',
     password: '',
     firstName: '',
     lastName: '',
-    province: ''
+    province: selectedProvince,
+    city: '',
+    gender: ''
   })
 
   const [provinceRegister, setProvinceRegister] = useState([
@@ -43,8 +46,8 @@ function RegisterPage () {
     }
   ])
 
-  const [selectedProvince, setSelectedProvince] = useState('')
   function handleChangeInput (e) {
+    setSelectedProvince(e.target.value)
     setUserRegister({
       ...userRegister,
       [e.target.name]: e.target.value
@@ -52,10 +55,7 @@ function RegisterPage () {
   }
   function handleSubmitRegister (e) {
     e.preventDefault()
-  }
-
-  const requestRegion = event => {
-    setSelectedProvince(event.target.value)
+    console.log(userRegister)
   }
 
   return (
@@ -116,9 +116,10 @@ function RegisterPage () {
                       </label>
                       <input
                         type='email'
-                        name='email-address'
-                        id='email-address'
-                        autoComplete='email'
+                        name='email'
+                        id='email'
+                        autocomplete='email'
+                        required
                         className='mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
                         onChange={e => handleChangeInput(e)}
                       />
@@ -152,7 +153,7 @@ function RegisterPage () {
                             name='province'
                             autoComplete='province'
                             className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-                            onChange={e => requestRegion(e)}
+                            onChange={e => handleChangeInput(e)}
                           >
                             <option selected>-- Please Select --</option>
                             {provinceRegister.map(province => {
@@ -172,6 +173,7 @@ function RegisterPage () {
                             className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                             onChange={e => handleChangeInput(e)}
                           >
+                            <option selected>-- Please Select --</option>
                             {provinceRegister.map(province => {
                               if (province.province === selectedProvince) {
                                 return province.city.map(cty => {
@@ -204,8 +206,9 @@ function RegisterPage () {
                         className='mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                         onChange={e => handleChangeInput(e)}
                       >
+                        <option selected>-- Please Select --</option>
                         <option value='laki'>Laki</option>
-                        <option>Perempuan</option>
+                        <option value='perempuan'>perempuan</option>
                       </select>
                     </div>
                   </div>
