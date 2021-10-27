@@ -1,4 +1,9 @@
-import { SET_ERROR_LOGIN, SET_LOGIN_SUCCESS } from './actionType'
+import {
+  SET_ERROR_LOGIN,
+  SET_ERROR_REGISTER,
+  SET_LOGIN_SUCCESS,
+  SET_REGISTER_SUCCESS
+} from './actionType'
 
 export function setLoginSuccess (payload) {
   return {
@@ -10,6 +15,20 @@ export function setLoginSuccess (payload) {
 export function setErrorLogin (payload) {
   return {
     type: SET_ERROR_LOGIN,
+    payload
+  }
+}
+
+export function setRegisterSuccess (payload) {
+  return {
+    type: SET_REGISTER_SUCCESS,
+    payload
+  }
+}
+
+export function setRegisterError (payload) {
+  return {
+    type: SET_ERROR_REGISTER,
     payload
   }
 }
@@ -37,6 +56,16 @@ export function actionLogin (payload) {
       if (name === 'Failed_Login') {
         dispatch(setErrorLogin(name))
       }
+    }
+  }
+}
+
+export function actionRegister (payload) {
+  return async function (dispatch) {
+    try {
+      console.log(payload)
+    } catch (err) {
+      console.log(err)
     }
   }
 }
