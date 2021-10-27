@@ -2,47 +2,42 @@ const fs = require('fs')
 const bodyParser = require('body-parser')
 const jsonServer = require('json-server')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
 
 const app = jsonServer.create()
 
 const PORT = 3001
+const userdb = JSON.parse(fs.readFileSync('./users.json', 'utf-8'))
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(jsonServer.defaults())
 
-const SECRET_KEY = process.env.JWT_SECRET_KEY
-
 function signToken (payload) {
   return jwt.sign(payload, 'sdjgydgdwjbwjbj.asjdsy8gdyjsauih')
 }
 
-const salt = bcrypt.genSaltSync(10)
+function isLoginAuthenticated ({ email, password }) {
+  const { users } = userdb
 
-function hashPassword (plainPassword) {
-  return bcrypt.hashSync(plainPassword, salt)
-}
-
-function checkPassword (plainPassword, hashPassword) {
-  return bcrypt.compareSync(plainPassword, hashPassword)
+  let filterUser
+  for (let i = 0; i < users.length; i++) {
+    filterUser = users[i].user.filter(
+      user => user.email === email && user.password === password
+    )
+  }
+  return filterUser
 }
 
 app.post('/register', (req, res) => {
   const body = req.body
-
-  console.log(body)
   fs.readFile('./users.json', (err, data) => {
-    if (body.email === '' || body.password === '') {
-      const status = 400
-      const message = 'Failed_Register'
-      res.status(status).json({ status, message })
-    }
     data = JSON.parse(data.toString())
-
     let addUserId = data.users[data.users.length - 1].id
-
-    data.users.push({ id: addUserId + 1, body })
+    let userArr = []
+    data.users.push({
+      id: addUserId + 1,
+      user: [body]
+    })
     fs.writeFile('./users.json', JSON.stringify(data), (err, result) => {
       if (req.body.email === '' || req.body.password === '') {
         const status = 400
@@ -59,6 +54,18 @@ app.post('/register', (req, res) => {
   } else {
     const access_token = signToken({ email: body.email })
     res.status(201).json({ access_token })
+  }
+})
+
+app.post('/login', (req, res) => {
+  const { email, password } = req.body
+  if (!isLoginAuthenticated({ email, password })) {
+    const status = 401
+    const message = 'Incorrect Email or Password'
+    res.status(status).json({ status, message })
+  } else {
+    const access_token = signToken({ email, password })
+    res.status(200).json({ access_token })
   }
 })
 
