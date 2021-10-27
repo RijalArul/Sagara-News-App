@@ -1,4 +1,21 @@
+import { useState } from 'react'
+
 function LoginPage () {
+  const [userLogin, setUserLogin] = useState({
+    email: '',
+    password: ''
+  })
+
+  function handleChangeInput (e) {
+    setUserLogin({
+      ...userLogin,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  function handleSubmitLogin (e) {
+    e.preventDefault()
+  }
   return (
     <div class='min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
       <div class='max-w-md w-full space-y-8'>
@@ -12,7 +29,7 @@ function LoginPage () {
             Sign in to your account
           </h2>
         </div>
-        <form class='mt-8 space-y-6'>
+        <form class='mt-8 space-y-6' onSubmit={handleSubmitLogin}>
           <input type='hidden' name='remember' value='true' />
           <div class='rounded-md shadow-sm -space-y-px'>
             <div>
@@ -27,6 +44,7 @@ function LoginPage () {
                 required
                 class='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 placeholder='Email address'
+                onChange={e => handleChangeInput(e)}
               />
             </div>
             <div>
@@ -41,6 +59,7 @@ function LoginPage () {
                 required
                 class='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 placeholder='Password'
+                onChange={e => handleChangeInput(e)}
               />
             </div>
           </div>
