@@ -3,6 +3,7 @@ import Navbar from './Components/Navbar'
 import Home from './Pages/Home'
 import { Switch, Route } from 'react-router'
 import DetailPage from './Pages/DetailPage'
+import RegisterPage from './Pages/RegisterPage'
 import LoginPage from './Pages/LoginPage'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -15,6 +16,9 @@ function App () {
       <Switch>
         <Route path='/detail/:name'>
           <DetailPage />
+        </Route>
+        <Route path='/register'>
+          <RegisterPage />
         </Route>
         <Route path='/login'>
           <LoginPage />
