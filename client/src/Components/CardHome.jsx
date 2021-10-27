@@ -2,11 +2,15 @@ import React from 'react'
 import * as moment from 'moment'
 import { useHistory } from 'react-router'
 import DetailPage from '../Pages/DetailPage'
+import { useDispatch } from 'react-redux'
+import { actionFetchNewsDetail } from '../Store/actions/newsAction'
 
 function CardHome ({ news }) {
   const history = useHistory()
+  const dispatch = useDispatch()
   function clickDetail (news) {
     history.push(`/detail/${news.title}`)
+    dispatch(actionFetchNewsDetail(news))
   }
   return (
     <div class='my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3'>

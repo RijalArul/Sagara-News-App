@@ -1,8 +1,15 @@
-import { SET_NEWS } from './actionType'
+import { SET_DETAIL_NEWS, SET_NEWS } from './actionType'
 
 export function setNews (payload) {
   return {
     type: SET_NEWS,
+    payload
+  }
+}
+
+export function setDetailNews (payload) {
+  return {
+    type: SET_DETAIL_NEWS,
     payload
   }
 }
@@ -19,6 +26,17 @@ export function actionFetchNews () {
 
       const { articles } = await response.json()
       dispatch(setNews(articles))
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+
+export function actionFetchNewsDetail (payload) {
+  return async function (dispatch) {
+    try {
+      localStorage.setItem('news', JSON.stringify(payload))
+      dispatch(setDetailNews())
     } catch (err) {
       console.log(err)
     }

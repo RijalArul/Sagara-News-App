@@ -1,7 +1,8 @@
-import { SET_NEWS } from '../actions/actionType'
+import { SET_DETAIL_NEWS, SET_NEWS } from '../actions/actionType'
 
 const initialState = {
-  news: []
+  news: [],
+  detail: JSON.parse(localStorage.getItem('news'))
 }
 
 function newsReducer (state = initialState, action) {
@@ -9,6 +10,8 @@ function newsReducer (state = initialState, action) {
   switch (type) {
     case SET_NEWS:
       return { ...state, news: payload }
+    case SET_DETAIL_NEWS:
+      return { ...state, detail: JSON.parse(localStorage.getItem('news')) }
     default:
       return state
   }
