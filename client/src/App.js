@@ -3,6 +3,7 @@ import Navbar from './Components/Navbar'
 import Home from './Pages/Home'
 import { Switch, Route } from 'react-router'
 import DetailPage from './Pages/DetailPage'
+import LoginPage from './Pages/LoginPage'
 
 function App () {
   return (
@@ -11,6 +12,9 @@ function App () {
       <Switch>
         <Route path='/detail/:name'>
           <DetailPage />
+        </Route>
+        <Route path='/login'>
+          <LoginPage />
         </Route>
         <Route path='/'>
           <Home />
