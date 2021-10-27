@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { actionLogin, setErrorLogin } from '../Store/actions/userAction'
+import {
+  actionLogin,
+  actionRegister,
+  setErrorLogin
+} from '../Store/actions/userAction'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router'
 
@@ -11,11 +15,10 @@ function RegisterPage () {
     password: '',
     firstName: '',
     lastName: '',
-    province: selectedProvince,
+    province: '',
     city: '',
     gender: ''
   })
-
   const [provinceRegister, setProvinceRegister] = useState([
     {
       id: 1,
@@ -46,6 +49,8 @@ function RegisterPage () {
     }
   ])
 
+  const dispatch = useDispatch()
+
   function handleChangeInput (e) {
     setSelectedProvince(e.target.value)
     setUserRegister({
@@ -55,7 +60,7 @@ function RegisterPage () {
   }
   function handleSubmitRegister (e) {
     e.preventDefault()
-    console.log(userRegister)
+    dispatch(actionRegister(userRegister))
   }
 
   return (
