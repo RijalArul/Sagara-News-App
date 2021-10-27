@@ -46,9 +46,16 @@ function RegisterPage () {
   ])
 
   const dispatch = useDispatch()
-  const { error } = useSelector(state => state.usersState)
+  const history = useHistory()
+  const { error, access_token } = useSelector(state => state.usersState)
 
   useEffect(() => {
+    if (access_token) {
+      toast.success('Register sucess')
+      setTimeout(() => {
+        history.push('/')
+      }, 2000)
+    }
     if (error) {
       toast.error('Register Failed')
       dispatch(setRegisterError(''))

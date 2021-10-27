@@ -16,16 +16,16 @@ function LoginPage () {
   const history = useHistory()
 
   useEffect(() => {
-    if (access_token) {
+    if (localStorage.getItem('access_token')) {
       toast.success('Login sucess')
       setTimeout(() => {
         history.push('/')
       }, 2000)
+    }
 
-      if (error) {
-        toast.error('Error Logining you in')
-        dispatch(setErrorLogin(''))
-      }
+    if (error) {
+      toast.error('Error Logining you in')
+      dispatch(setErrorLogin(''))
     }
   }, [dispatch, error])
 
@@ -50,8 +50,8 @@ function LoginPage () {
         <div>
           <img
             class='mx-auto h-12 w-auto'
-            src='https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg'
-            alt='Workflow'
+            src='https://icon-library.com/images/newspaper-app-icon/newspaper-app-icon-8.jpg'
+            alt='News-App'
           />
           <h2 class='mt-6 text-center text-3xl font-extrabold text-gray-900'>
             Sign in to your account

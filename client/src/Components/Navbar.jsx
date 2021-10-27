@@ -1,15 +1,26 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLogout } from '../Store/actions/userAction'
 
 function Navbar () {
   const history = useHistory()
+  const dispatch = useDispatch()
+  const { access_token } = useSelector(state => state.usersState)
   function clickLogout () {
+    localStorage.clear()
+    dispatch(setLogout())
     history.push('/login')
   }
+
+  function clickLogin () {
+    history.push('/login')
+  }
+
   return (
-    <Disclosure as='nav' className='bg-gray-800'>
+    <Disclosure as='nav' className='bg-blue-100'>
       {({ open }) => (
         <>
           <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-8'>
@@ -28,14 +39,10 @@ function Navbar () {
               <div className='flex-1 flex items-center justify-center sm:items-stretch sm:justify-start'>
                 <div className='flex-shrink-0 flex items-center'>
                   <img
-                    className='block lg:hidden h-8 w-auto'
-                    src='https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg'
-                    alt='Workflow'
-                  />
-                  <img
                     className='hidden lg:block h-8 w-auto'
-                    src='https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg'
-                    alt='Workflow'
+                    src='https://icon-library.com/images/newspaper-app-icon/newspaper-app-icon-8.jpg'
+                    alt='News-App'
+                    style={{ width: '65px' }}
                   />
                 </div>
               </div>
@@ -43,11 +50,21 @@ function Navbar () {
                 {/* Profile dropdown */}
                 <Menu as='div' className='ml-3 relative'>
                   <div>
-                    {localStorage.getItem('access_token') ? (
-                      <button onClick={() => clickLogout()}>Log Out</button>
-                    ) : (
-                      <button>Log In</button>
-                    )}
+                    {access_token ? (
+                      <button
+                        class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
+                        onClick={() => clickLogout()}
+                      >
+                        Logout
+                      </button>
+                    ) : !localStorage.getItem('access_token') ? (
+                      <button
+                        class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+                        onClick={() => clickLogin()}
+                      >
+                        Login
+                      </button>
+                    ) : null}
                   </div>
                   <Transition
                     as={Fragment}

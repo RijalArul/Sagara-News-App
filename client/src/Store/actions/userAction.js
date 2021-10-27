@@ -2,7 +2,8 @@ import {
   SET_ERROR_LOGIN,
   SET_REGISTER_ERROR,
   SET_LOGIN_SUCCESS,
-  SET_REGISTER_SUCCESS
+  SET_REGISTER_SUCCESS,
+  SET_LOGOUT
 } from './actionType'
 
 export function setLoginSuccess (payload) {
@@ -29,6 +30,13 @@ export function setRegisterSuccess (payload) {
 export function setRegisterError (payload) {
   return {
     type: SET_REGISTER_ERROR,
+    payload
+  }
+}
+
+export function setLogout (payload) {
+  return {
+    type: SET_LOGOUT,
     payload
   }
 }
@@ -70,14 +78,23 @@ export function actionRegister (payload) {
         },
         body: JSON.stringify(payload)
       })
-
+      const { access_token } = await response.json()
       if (response.status === 400) {
         throw { name: 'Register_Failed' }
       } else {
+        localStorage.setItem('access_token', access_token)
+        dispatch(setRegisterSuccess(access_token))
       }
     } catch (err) {
       const { name } = err
       dispatch(setRegisterError(name))
     }
+  }
+}
+
+export function actionLogout () {
+  return async function (dispatch) {
+    localStorage.clear()
+    dispatch(setLogout())
   }
 }

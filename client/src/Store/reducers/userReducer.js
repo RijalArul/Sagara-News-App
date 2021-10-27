@@ -1,8 +1,9 @@
 import {
   SET_ERROR_LOGIN,
-  SET_ERROR_REGISTER,
   SET_LOGIN_SUCCESS,
-  SET_REGISTER_ERROR
+  SET_LOGOUT,
+  SET_REGISTER_ERROR,
+  SET_REGISTER_SUCCESS
 } from '../actions/actionType'
 
 const initialState = {
@@ -16,10 +17,14 @@ function userReducer (state = initialState, action) {
   switch (type) {
     case SET_LOGIN_SUCCESS:
       return { ...state, access_token: payload, error: null }
+    case SET_REGISTER_SUCCESS:
+      return { ...state, access_token: payload, error: null }
     case SET_ERROR_LOGIN:
       return { ...state, error: payload }
     case SET_REGISTER_ERROR:
       return { ...state, error: payload }
+    case SET_LOGOUT:
+      return { ...state, access_token: null }
     default:
       return state
   }
